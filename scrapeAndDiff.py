@@ -109,9 +109,20 @@ def send_mail(body):
     server.quit()
 
 
-def main(url):
-    grab_site_content(url)
-    
+def main(index_url, filename):
+    summary = summarize_site(index_url)
+    try:
+        prev_summary = load_site_summary(filename)
+        if prev_summary:
+            diff_description = describe_diff(diff(prev_summary, summary))
+            if diff_description:
+                print(diff_description)
+                send_mail(diff_description)
+    except FileNotFoundError:
+        pass
+    save_site_summary(filename, summary)
+
+
 
 #main(url='http://github.com/dsuarez4')
 main(url='https://sites.google.com/site/csc110winter2015/home')
