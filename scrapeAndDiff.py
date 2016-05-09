@@ -76,8 +76,18 @@ def diff(old, new):
         'removed': old.keys() - new.keys(),
         'modified': [page for page in set(new.keys()).intersection(old.keys())
                      if old[page] != new[page]],
-}
+    }
 
+def describe_diff(diff):
+    desc = []
+    for change in ('added', 'removed', 'modified'):
+        if not diff[change]:
+            continue
+        desc.append('The following page(s) have been {}:\n{}'.format(
+            change,
+            '\n'.join(' ' + path for path in sorted(diff[change]))
+        ))
+    return '\n\n'.join(desc)
 
 
 
