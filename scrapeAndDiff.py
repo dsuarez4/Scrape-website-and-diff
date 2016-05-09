@@ -70,6 +70,14 @@ def load_site_summary(filename):
             summary[path] = b64decode(fingerprint)
     return summary
 
+def diff(old, new):
+    return {
+        'added': new.keys() - old.keys(),
+        'removed': old.keys() - new.keys(),
+        'modified': [page for page in set(new.keys()).intersection(old.keys())
+                     if old[page] != new[page]],
+}
+
 
 
 
