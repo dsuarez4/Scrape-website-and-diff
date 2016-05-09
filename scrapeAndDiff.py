@@ -62,6 +62,16 @@ def save_site_summary(filename, summary):
         for path, fingerprint in summary.items():
             f.write("{} {}\n".format(b64encode(fingerprint).decode(), path))
 
+def load_site_summary(filename):
+    summary = {}
+    with open(filename, 'rt', encoding='utf-8') as f:
+        for line in f:
+            fingerprint, path = line.rstrip().split(' ', 1)
+            summary[path] = b64decode(fingerprint)
+    return summary
+
+
+
 
 def main(url):
     grab_site_content(url)
