@@ -90,6 +90,24 @@ def describe_diff(diff):
     return '\n\n'.join(desc)
 
 
+def send_mail(body):
+    ## Compose the email
+    fromaddr = "Sending Email"
+    toaddr = "Receiving Email"
+    msg = MIMEText(body, 'plain')
+    msg['From'] = fromaddr
+    msg['To'] = toaddr
+    msg['Subject'] = "Incoming CSC110 website changes!"
+    
+    ## Send it
+    server = SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login("Sending Email", "Password")
+    server.sendmail(fromaddr, toaddr, msg.as_string())
+    server.quit()
+
 
 def main(url):
     grab_site_content(url)
